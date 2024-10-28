@@ -1,0 +1,21 @@
+services:
+  wine:
+    build: .
+    container_name: wine_container
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./profiles:/home/wineuser/profiles
+      - ./wine:/home/wineuser/wine
+      - ./chrome:/home/wineuser/chrome
+      - ./sharedir:/home/wineuser/sharedir
+    network_mode: "host"
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - SYS_ADMIN
+    entrypoint:
+      - ./wine/run.sh 
+    env_file:
+      - ./args.env
