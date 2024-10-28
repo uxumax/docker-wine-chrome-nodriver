@@ -31,4 +31,3 @@ if __name__ == "__main__":
         run_chrome(profile_name, script_name)
     )
     input("Waiting...")
-    nodriver.quit()
