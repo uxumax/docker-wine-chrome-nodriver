@@ -4,7 +4,7 @@ This project facilitates running a Windows Chrome antidetect browser using the [
 
 ## Prerequisites
 
-Ensure you have Docker Engine installed. If not, follow the installation guide [here](https://docs.docker.com/engine/install/).
+Ensure you have Docker Engine installed. If not, follow the installation guide [here](https://docs.docker.com/engine/install/). If you want run docker as non-root user do not forget about [this](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 
 ## Setup Instructions
 
@@ -19,7 +19,7 @@ Ensure you have Docker Engine installed. If not, follow the installation guide [
      ```
 
 3. **Run the Container:**
-   - Execute the following command to run the container. This script will handle the post-build GUI Wine installation on the first run. Subsequent runs will be ready for use:
+   - Execute the following command to run the container. This script will handle the post-build GUI Wine installation `wine-mono` and `python` on the first run. Subsequent runs will be ready for use:
      ```bash
      ./run.sh test_profile check_browser
      ```
@@ -64,6 +64,8 @@ You can use the `./sharedir` directory for file uploads or downloads in your aut
 You should use a spoofed antidetect Chrome browser. This involves modifying the original Chrome source code to make the browser undetectable. You can create this yourself or purchase one (for example, I offer browsers with spoofed canvas, WebGL, audio, WebRTC, etc.).
 
 ## Possible issues
+This project built and tested on Debian 12 (bookworm) Docker host. So here are known possible issues below
+
 ### Chrome black window
 If chrome run with black window then try restart X window manager with this script
 ```bash
@@ -71,7 +73,7 @@ If chrome run with black window then try restart X window manager with this scri
 ```
 
 ### Wine issues
-If wine broken you can resinstall it this way
+If Wine broken you can resinstall it this way. Do not worry your browser profiles and nodriver scripts will NOT be deleted.
 ```bash
 ./debug/clear_wine_prefix.sh
 ```
