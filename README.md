@@ -61,7 +61,7 @@ You can use the `./sharedir` directory for file uploads or downloads in your aut
 
 ## Recommended Chrome Browser
 
-You should use a spoofed antidetect Chrome browser. This involves modifying the original Chrome source code to make the browser undetectable. This mean spoof Canvas, WebGL, Audio, WebRTC (etc) detection and set these spoofing params with Wine environ variables in `chrome/nodriver.env`
+You should use an antidetect Chrome browser. This involves modifying the original Chrome source code to make the browser undetectable. This mean spoof Canvas, WebGL, Audio, WebRTC (etc) detection and set these spoofing params with Wine environ variables in `chrome/nodriver.env`
 
 ## Possible issues
 This project built and tested on Debian 12 (bookworm) Docker host. So here are known possible issues below
