@@ -2,6 +2,7 @@ services:
   wine:
     build: .
     container_name: wine_container
+    ipc: host
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
