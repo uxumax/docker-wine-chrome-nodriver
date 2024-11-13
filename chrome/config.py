@@ -8,7 +8,7 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 
 config = {
     "log_dir_path": os.path.join(BASE_DIR, "logs\\"),
-    "nodriver_env_path": os.path.join(BASE_DIR, "nodriver.env"),
+    "dotenv_path": os.path.join(BASE_DIR, "..\\.env"),
     "browser": {
         "executable_path": os.path.join(BASE_DIR, "bin\\chrome.exe"),
         "profiles_dir_path": os.path.join(BASE_DIR, "profiles"),

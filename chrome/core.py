@@ -41,7 +41,7 @@ class WebDriver:
             "browser_args": config["browser"]["args"],
             "user_data_dir": config["browser"]["profiles_dir_path"] + f"\\{profile_name}",
         }
-        load_dotenv(config["nodriver_env_path"])
+        load_dotenv(config["dotenv_path"])
 
     async def start(self, **kwargs):
         combined_args = {**self._args, **kwargs}

@@ -12,21 +12,26 @@ Ensure you have Docker Engine installed. If not, follow the installation guide [
    - Place your preferred antidetect Chrome browser in the `chrome/bin` directory.
    - Ensure `chrome.exe` is located at `chrome/bin/chrome.exe`.
 
-2. **Build the Docker Container:**
+2. **Create Dotenv File:**
+   - Run the following bash script to generate `.env` file
+     ```bash
+     ./create_dotenv.sh
+     ```
+   - The `.env` contains: 
+     - `PROFILE_NAME`: The name of the browser profile (`--user_data_dir` chrome arg). You can set any name, create profiles as needed, and reuse them. All profiles are stored in `chrome/profiles/`. Feel free to add or remove profiles as necessary. If you run `./run.sh` with a non-existent profile, a new blank one will be created.
+     - `SCRIPT_NAME`: The name of the script to run. All scripts are located in `chrome/scripts/`. Each script should contain a `run()` function as the entry point.
+     - Rest system env variables that accessible in Chrome Nodriver context
+
+2. **Build and Run the Docker Container:**
    - Run the following command to build the container with Wine:
      ```bash
      ./build.sh
      ```
-
-3. **Run the Container:**
    - Execute the following command to run the container. This script will handle the post-build GUI Wine installation `wine-mono` and `python` on the first run. Subsequent runs will be ready for use:
      ```bash
-     ./run.sh test_profile check_browser
+     ./run.sh 
      ```
-
-   - **Parameters:**
-     - `test_profile`: The name of the browser profile (`--user_data_dir` chrome arg). You can set any name, create profiles as needed, and reuse them. All profiles are stored in `chrome/profiles/`. Feel free to add or remove profiles as necessary. If you run `./run.sh` with a non-existent profile, a new blank one will be created.
-     - `check_browser`: The name of the script to run. All scripts are located in `chrome/scripts/`. Each script should contain a `run()` function as the entry point.
+   Do not forget about `Add to PATH` while Python installing
 
 ## Example Script
 
@@ -41,17 +46,13 @@ async def run(driver: WebDriver):
     await driver.get(url)
 ```
 
-This script opens an online browser fingerprint checker. The URL is retrieved from `chrome/nodriver.env`. By default, the file contains the following entries, with only one uncommented:
+This script opens an online browser fingerprint checker. The URL is retrieved from `.env`. By default, the file contains the following entries, with only one uncommented:
 
 ```env
-# Browser fingerprint checkers. Uncomment your preferred
 BROWSER_CHECKER_URL=https://abrahamjuliot.github.io/creepjs/
-# BROWSER_CHECKER=https://www.nowsecure.nl
-# BROWSER_CHECKER=https://antcpt.com/score_detector/
-# BROWSER_CHECKER=https://browserleaks.com/canvas
 ```
 
-You can manage nodriver environment variables by setting new ones and accessing them using `os.getenv` in your automation scripts.
+You can manage these environment variables by setting new ones and accessing them using `os.getenv` in your automation scripts.
 
 ## Shared Directory
 
@@ -61,7 +62,7 @@ You can use the `./sharedir` directory for file uploads or downloads in your aut
 
 ## Recommended Chrome Browser
 
-You should use an antidetect Chrome browser. This involves modifying the original Chrome source code to make the browser undetectable. This mean spoof Canvas, WebGL, Audio, WebRTC (etc) detection and set these spoofing params with Wine environ variables in `chrome/nodriver.env`
+You should use an antidetect Chrome browser. This involves modifying the original Chrome source code to make the browser undetectable. This mean spoof Canvas, WebGL, Audio, WebRTC (etc) detection and set these spoofing params with Wine environ variables in `.env`
 
 ## Possible issues
 This project built and tested on Debian 12 (bookworm) Docker host. So here are known possible issues below

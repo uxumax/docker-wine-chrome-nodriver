@@ -1,7 +1,7 @@
 from importlib import import_module
 import asyncio
 import time
-import sys
+import os
 
 import nodriver
 
@@ -21,12 +21,8 @@ async def run_chrome(profile_name: str, script_name: str):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python run.py <profile_name> <script_name>")
-        sys.exit(1)
-
-    profile_name = sys.argv[1]
-    script_name = sys.argv[2]
+    profile_name = os.getenv("PROFILE_NAME")
+    script_name = os.getenv("SCRIPT_NAME")
     asyncio.run(
         run_chrome(profile_name, script_name)
     )

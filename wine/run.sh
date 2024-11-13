@@ -56,15 +56,7 @@ is_wine_prefix_exists() {
 }
 
 run_app() {
-    # wine python -m pip install nodriver python-dotenv
-    # wine python -m pip freeze > $HOME/chrome/requirements.txt
-    # wine python chrome/run.py test_profile_1 check_browser
     wine python chrome/run.py $PROFILE_NAME $SCRIPT_NAME
-    # wine cmd /c "Z:\\home\\wineuser\\chrome\\run_chrome.bat"
-    # wine cmd
-    # winecfg
-    # wine chrome/bin/chrome.exe --no-sandbox --user-data-dir="Z:\home\wineuser\chrome\profiles\profile1"
-    # wine explorer 
 }
 
 entry_point() {
@@ -88,10 +80,3 @@ entry_point() {
 
 entry_point
 
-
-# COPY scripts/run_chrome.bat /home/wineuser/run_chrome.bat
-# COPY ./env_vars.json /home/wineuser/env_vars.json
-
-# RUN mkdir ./win_python && cd win_python && \
-#     wget https://www.python.org/ftp/python/3.13.0/python-3.13.0-embed-amd64.zip && \
-#     unzip python-3.13.0-embed-amd64.zip
