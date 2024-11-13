@@ -1,2 +1,2 @@
- args.env
+.env
 *.sw*

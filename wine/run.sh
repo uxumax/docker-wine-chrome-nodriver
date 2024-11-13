@@ -47,6 +47,17 @@ reset_wine() {
     rm -rf "$HOME/wine/prefix" && winecfg
 }
 
+setup_registry() {
+    CUSTOM_REG_PATH=/tmp/wine_custom.reg
+    echo "REGEDIT4
+    [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\FontSubstitutes]
+    \"Tahoma\"=\"$WINE_SYSTEM_UI_FONT_NAME\"
+    " > $CUSTOM_REG_PATH 
+    echo "Setup registry $(cat $CUSTOM_REG_PATH)"
+    wine regedit $CUSTOM_REG_PATH 
+    rm $CUSTOM_REG_PATH
+}
+
 is_wine_prefix_exists() {
     if [ ! -d "$HOME/wine/prefix" ]; then
         return 0  # True, directory is empty
@@ -75,6 +86,7 @@ entry_point() {
     # Install python if not installed
     wine python --version || install_python
 
+    setup_registry
     run_app
 }
 

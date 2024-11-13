@@ -7,6 +7,7 @@ services:
       - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./wine/fonts:/usr/local/share/fonts
       - ./wine:/home/wineuser/wine
       - ./chrome:/home/wineuser/chrome
       - ./sharedir:/home/wineuser/sharedir
