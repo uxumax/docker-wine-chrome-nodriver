@@ -31,7 +31,6 @@ Ensure you have Docker Engine installed. If not, follow the installation guide [
      ```bash
      ./run.sh 
      ```
-   Do not forget about `Add to PATH` while Python installing
 
 ## Example Script
 
@@ -39,11 +38,11 @@ Below is an example of a Chrome nodriver script that demonstrates how to create 
 
 ```python
 import os
-from core import WebDriver
 
-async def run(driver: WebDriver):
+async def run(driver):
     url = os.getenv("BROWSER_CHECKER_URL")
     await driver.get(url)
+    input("Push Enter to close browser")
 ```
 
 This script opens an online browser fingerprint checker. The URL is retrieved from `.env`. By default, the file contains the following entries, with only one uncommented:

@@ -1,6 +1,6 @@
 import os
-from core import WebDriver
 
-async def run(driver: WebDriver):
+async def run(driver):
     url = os.getenv("BROWSER_CHECKER_URL")
     await driver.get(url)
+    input("Push Enter to close browser")

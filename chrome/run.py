@@ -3,27 +3,56 @@ import asyncio
 import time
 import os
 
-import nodriver
+import atexit
+import nodriver as uc
 
 from config import config
 from scripts import check_browser
 from core import (
-    WebDriver, 
+    Browser, 
     get_logger,
 )
 
 log = get_logger(__name__)
 
-async def run_chrome(profile_name: str, script_name: str):
-    driver = await WebDriver(profile_name).start()
+# Disable deconstruct_browser at exit
+atexit.unregister(uc.core.util.deconstruct_browser) 
+
+async def _graceful_stop_browser(driver):
+    try:
+        # Close all tabs
+        for t in driver.tabs:
+            await t.close()
+
+        # Attempt to close the websocket connection manually
+        if driver.connection:
+            await driver.connection.aclose()
+
+        # Close the browser
+        driver.stop()
+
+    except Exception as e:
+        log.exception(f"Error during browser closure: {e}")
+
+    finally:
+        # Ensure the browser process is terminated
+        if driver._process:
+            log.info("Waiting graceful stop the browser proccesses...")
+            driver._process.terminate()
+            await driver._process.wait()
+            log.info("Browser has been stopped gracefully")
+
+
+async def _run_script(profile_name: str, script_name: str):
+    driver = await Browser(profile_name).start()
     script = import_module(f"scripts.{script_name}")
     await script.run(driver)
+    await _graceful_stop_browser(driver)
 
 
 if __name__ == "__main__":
     profile_name = os.getenv("PROFILE_NAME")
     script_name = os.getenv("SCRIPT_NAME")
-    asyncio.run(
-        run_chrome(profile_name, script_name)
-    )
-    input("Waiting...")
+    uc.loop().run_until_complete(
+        _run_script(profile_name, script_name)
+    ) 

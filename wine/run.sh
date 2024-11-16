@@ -15,7 +15,8 @@ _download_python() {
         https://www.python.org/ftp/python/$PYTHON_VERSION/python-$PYTHON_VERSION-amd64.exe
 }
 
-is_wine_working() {
+is_wine_working(){
+    # TODO make simple wine test
     return 0
 }
 
@@ -31,13 +32,13 @@ install_mono() {
 }
 
 install_python() {
-    py_installer=$HOME/wine/installers/python-$PYTHON_VERSION-amd64.exe
-    if [ ! -f "$py_installer" ]; then
+    py_installer_exe=$HOME/wine/installers/python-$PYTHON_VERSION-amd64.exe
+    if [ ! -f "$py_installer_exe" ]; then
         echo "Python installer does not downloaded"
         _download_python
     fi
     echo "Install python $PYTHON_VERSION"
-    wine $py_installer
+    wine $py_installer_exe /passive PrependPath=1  # With adding pydir to PATH
     echo "Python has been installed. Install dependencies"
     wine python -m pip install -r $HOME/chrome/requirements.txt
 }
@@ -47,14 +48,14 @@ reset_wine() {
     rm -rf "$HOME/wine/prefix" && winecfg
 }
 
-setup_registry() {
+set_windows_ui_font_to_registry() {
     CUSTOM_REG_PATH=/tmp/wine_custom.reg
     echo "REGEDIT4
     [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\FontSubstitutes]
     \"Tahoma\"=\"$WINE_SYSTEM_UI_FONT_NAME\"
     " > $CUSTOM_REG_PATH 
     echo "Setup registry $(cat $CUSTOM_REG_PATH)"
-    wine regedit $CUSTOM_REG_PATH 
+    wine regedit $CUSTOM_REG_PATH
     rm $CUSTOM_REG_PATH
 }
 
@@ -86,8 +87,12 @@ entry_point() {
     # Install python if not installed
     wine python --version || install_python
 
-    setup_registry
+    if [ $USE_NATIVE_WINDOWS_FONTS = "true" ]; then
+        set_windows_ui_font_to_registry
+    fi
+
     run_app
+    return 0
 }
 
 entry_point
