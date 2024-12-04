@@ -42,7 +42,7 @@ import os
 async def run(driver):
     url = os.getenv("BROWSER_CHECKER_URL")
     await driver.get(url)
-    input("Push Enter to close browser")
+    while True: pass  # keep browser open
 ```
 
 This script opens an online browser fingerprint checker. The URL is retrieved from `.env`. By default, the file contains the following entries, with only one uncommented:
