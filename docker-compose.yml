@@ -1,8 +1,6 @@
 services:
   wine:
     build: .
-    container_name: wine_container
-    ipc: host
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
@@ -11,11 +9,6 @@ services:
       - ./wine:/home/wineuser/wine
       - ./chrome:/home/wineuser/chrome
       - ./sharedir:/home/wineuser/sharedir
-    network_mode: "host"
-    security_opt:
-      - seccomp:unconfined
-    cap_add:
-      - SYS_ADMIN
     entrypoint:
       - ./wine/run.sh 
     env_file:
