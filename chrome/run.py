@@ -46,8 +46,10 @@ async def _graceful_stop_browser(driver):
 async def _run_script(profile_name: str, script_name: str):
     driver = await Browser(profile_name).start()
     script = import_module(f"scripts.{script_name}")
-    await script.run(driver)
-    await _graceful_stop_browser(driver)
+    try:
+        await script.run(driver)
+    except KeyboardInterrupt:
+        await _graceful_stop_browser(driver)
 
 
 if __name__ == "__main__":
@@ -56,3 +58,4 @@ if __name__ == "__main__":
     uc.loop().run_until_complete(
         _run_script(profile_name, script_name)
     ) 
+
