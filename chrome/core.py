@@ -74,12 +74,12 @@ class Browser:
         log.info("Browser profile has been created")
 
     def _open_profile_preferences(self) -> dict:
-        with open(self._profile_preferenes_path, 'r') as file:
+        with open(self._profile_preferenes_path, 'r', encoding='utf-8') as file:
             preferences = json.load(file)
             return preferences
 
     def _save_profile_preferences(self, preferences: dict):
-        with open(self._profile_preferenes_path, 'w') as file:
+        with open(self._profile_preferenes_path, 'w', encoding='utf-8') as file:
             json.dump(preferences, file, indent=4)
             log.info(f"Saved {preferences} to {self._profile_preferenes_path}")
 
