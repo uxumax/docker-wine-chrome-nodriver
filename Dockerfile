@@ -40,5 +40,3 @@ WORKDIR /home/wineuser
 
 ENV WINEDEBUG="-all"
 ENV WINEPREFIX="/home/wineuser/wine/prefix"
-# CMD bash ./wine/run.sh
-
