@@ -81,12 +81,11 @@ class Browser:
     def _save_profile_preferences(self, preferences: dict):
         with open(self._profile_preferenes_path, 'w', encoding='utf-8') as file:
             json.dump(preferences, file, indent=4)
-            log.info(f"Saved {preferences} to {self._profile_preferenes_path}")
+            # log.info(f"Saved {preferences} to {self._profile_preferenes_path}")
 
     def _set_monospace_font_to_profile(self):
         preferences = self._open_profile_preferences()
         # Set monospace font param
-        log.info(f"Preferences {preferences}")
         preferences["webkit"]["webprefs"]["fonts"]["fixed"] = {
             "Zyyy": self._get_monospace_font_name()
             # yep just fuckin Zyyy %)
