@@ -5,11 +5,12 @@ This project facilitates running a Windows Chrome antidetect browser using the [
 Ensure you have Docker Engine installed. If not, follow the installation guide [here](https://docs.docker.com/engine/install/). If you want run docker as non-root user do not forget about [this](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 
 ## Setup Instructions
-1. **Upload Antidetect Chrome Browser:**
+
+#### 1. Upload Antidetect Chrome Browser
 - Place your preferred antidetect Chrome browser in the `chrome/bin` directory.
 - Ensure `chrome.exe` is located at `chrome/bin/chrome.exe`.
 
-2. **Create Dotenv File:**
+#### 2. Create Dotenv File
 Run the following bash script to generate `.env` file
 ```bash
 ./create_dotenv.sh
@@ -20,7 +21,7 @@ The `.env` contains:
 - `SCRIPT_NAME`: The name of the script to run. All scripts are located in `chrome/scripts/`. Each script should contain a `run()` function as the entry point.
 - Rest system env variables that accessible in Chrome Nodriver context
 
-3. **Build and Run the Docker Container:**
+#### 3. Build and Run the Docker Container
 Execute the following script to run the container. This script will handle the post-build GUI Wine installation `wine-mono` and `python` on the first run. Subsequent runs will be ready for use:
 ```bash
 ./run.sh
