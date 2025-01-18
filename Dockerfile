@@ -14,23 +14,26 @@ RUN mkdir -pm755 /etc/apt/keyringsa && \
     wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && \
     wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/bookworm/winehq-bookworm.sources
 
-# Install wine
+# Install wine and utils for winetricks
 RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install --install-recommends -y \
+        cabextract \ 
+        xz-utils \
+        zstd \
         fonts-wine \
         winehq-staging 
         # If set winehq-stable then fonts inside chrome pages will not show 
         # Do not know why but set staging for now
 
+# Clean apt lists
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install winetricks
 RUN wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
     chmod +x winetricks && \
     mv winetricks /usr/local/bin
-
-# Clean apt lists
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
 
 # Wihtout this line winecfg will not work properly
 RUN wineboot --init
