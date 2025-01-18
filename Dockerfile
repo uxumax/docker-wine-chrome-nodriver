@@ -23,6 +23,11 @@ RUN dpkg --add-architecture i386 && \
         # If set winehq-stable then fonts inside chrome pages will not show 
         # Do not know why but set staging for now
 
+# Install winetricks
+RUN wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
+    chmod +x winetricks && \
+    mv winetricks /usr/local/bin
+
 # Clean apt lists
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
